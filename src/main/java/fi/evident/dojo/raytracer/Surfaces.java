@@ -1,4 +1,4 @@
-package raytracer;
+package fi.evident.dojo.raytracer;
 
 import static java.lang.Math.floor;
 

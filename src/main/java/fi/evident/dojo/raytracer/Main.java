@@ -1,6 +1,6 @@
-package raytracer;
+package fi.evident.dojo.raytracer;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Main {
     

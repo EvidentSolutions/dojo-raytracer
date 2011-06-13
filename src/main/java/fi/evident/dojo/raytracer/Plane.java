@@ -1,4 +1,4 @@
-package raytracer;
+package fi.evident.dojo.raytracer;
 
 public final class Plane extends SceneObject {
 
@@ -17,7 +17,6 @@ public final class Plane extends SceneObject {
     @Override
     public Intersection intersect(Ray ray) {
         // See http://en.wikipedia.org/wiki/Line-plane_intersection
-        
         float denom = normal.dotProduct(ray.direction);
         if (denom > 0) return null;
         

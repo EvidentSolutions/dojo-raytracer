@@ -1,12 +1,10 @@
-package raytracer;
+package fi.evident.dojo.raytracer;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.swing.JComponent;
 
 public class RaytracerView extends JComponent {
 

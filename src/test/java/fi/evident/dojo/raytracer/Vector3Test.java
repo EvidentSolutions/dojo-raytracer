@@ -1,14 +1,14 @@
-package raytracer;
+package fi.evident.dojo.raytracer;
 
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
-import static raytracer.Vector3.ZERO;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.junit.Test;
+import static fi.evident.dojo.raytracer.Vector3.ZERO;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
 
 public class Vector3Test {
 

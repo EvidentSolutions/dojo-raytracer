@@ -1,11 +1,11 @@
-package raytracer;
-
-import static java.lang.Character.isLetter;
-import static java.lang.Character.isWhitespace;
+package fi.evident.dojo.raytracer;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+
+import static java.lang.Character.isLetter;
+import static java.lang.Character.isWhitespace;
 
 public final class SceneParser {
     

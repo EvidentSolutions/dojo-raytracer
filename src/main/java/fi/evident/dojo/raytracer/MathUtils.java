@@ -1,4 +1,4 @@
-package raytracer;
+package fi.evident.dojo.raytracer;
 
 public final class MathUtils {
 
@@ -10,6 +10,10 @@ public final class MathUtils {
     
     public static float sqrt(float x) {
         return (float) Math.sqrt(x);
+    }
+    
+    public static float pow(float a, float b) {
+        return (float) Math.pow(a, b);
     }
     
     /**

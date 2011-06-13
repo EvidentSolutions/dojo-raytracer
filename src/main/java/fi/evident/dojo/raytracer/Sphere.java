@@ -1,7 +1,7 @@
-package raytracer;
+package fi.evident.dojo.raytracer;
 
-import static raytracer.MathUtils.sqrt;
-import static raytracer.MathUtils.square;
+import static fi.evident.dojo.raytracer.MathUtils.sqrt;
+import static fi.evident.dojo.raytracer.MathUtils.square;
 
 public final class Sphere extends SceneObject {
 
@@ -21,7 +21,6 @@ public final class Sphere extends SceneObject {
     @Override
     public Intersection intersect(Ray ray) {
         // See http://en.wikipedia.org/wiki/Line-sphere_intersection
-        
         Vector3 v = center.subtract(ray.start);
         float b = v.dotProduct(ray.direction);
 

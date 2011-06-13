@@ -1,4 +1,4 @@
-package raytracer;
+package fi.evident.dojo.raytracer;
 
 public final class Camera {
     

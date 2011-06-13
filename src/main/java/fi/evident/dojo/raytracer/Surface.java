@@ -1,4 +1,4 @@
-package raytracer;
+package fi.evident.dojo.raytracer;
 
 public abstract class Surface {
     

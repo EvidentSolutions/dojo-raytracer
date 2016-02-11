@@ -22,15 +22,20 @@
 
 package fi.evident.dojo.raytracer;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
+
 import static fi.evident.dojo.raytracer.MathUtils.sqrt;
 import static fi.evident.dojo.raytracer.MathUtils.square;
 
 public final class Sphere extends SceneObject {
 
+    @NotNull
     private final Vector3 center;
     private final float radius;
     
-    public Sphere(Vector3 center, float radius, Surface surface) {
+    public Sphere(@NotNull Vector3 center, float radius, @NotNull Surface surface) {
         super(surface);
         
         assert center != null;
@@ -40,29 +45,31 @@ public final class Sphere extends SceneObject {
         this.radius = radius;
     }
     
+    @NotNull
     @Override
-    public Intersection intersect(Ray ray) {
+    public Optional<Intersection> intersect(@NotNull Ray ray) {
         // See http://en.wikipedia.org/wiki/Line-sphere_intersection
         Vector3 v = center.subtract(ray.start);
         float b = v.dotProduct(ray.direction);
 
         // if v < 0, distance is going to be negative; bail out early
         if (b < 0)
-            return null;
+            return Optional.empty();
         
         float disc = square(radius) - (v.magnitudeSquared() - square(b));
         if (disc < 0)
-            return null;
+            return Optional.empty();
         
         float distance = b - sqrt(disc);
         if (distance <= 0)
-            return null;
+            return Optional.empty();
         
-        return new Intersection(this, ray, distance); 
+        return Optional.of(new Intersection(this, ray, distance));
     }
     
     @Override
-    public Vector3 normal(Vector3 pos) {
+    @NotNull
+    public Vector3 normal(@NotNull Vector3 pos) {
         return pos.subtract(center).normalize();
     }
 }

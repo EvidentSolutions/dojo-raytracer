@@ -22,6 +22,8 @@
 
 package fi.evident.dojo.raytracer;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -30,18 +32,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class RaytracerView extends JComponent {
 
+    @NotNull
     private final BufferedImage image = new BufferedImage(600, 600, BufferedImage.TYPE_INT_RGB);
+
+    @NotNull
     private final Raytracer raytracer;
     
-    public RaytracerView(Scene scene) {
+    public RaytracerView(@NotNull Scene scene) {
         raytracer = new Raytracer(scene, image.getWidth(), image.getHeight());        
     }
     
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(@NotNull Graphics g) {
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
     }
     
+    @NotNull
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(image.getWidth(), image.getHeight());

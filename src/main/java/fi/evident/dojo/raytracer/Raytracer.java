@@ -22,19 +22,28 @@
 
 package fi.evident.dojo.raytracer;
 
+import org.jetbrains.annotations.NotNull;
+
 import static fi.evident.dojo.raytracer.MathUtils.pow;
 
 public final class Raytracer {
 
+    @NotNull
     private final Scene scene;
+
     private final int width;
+
     private final int height;
+
+    @NotNull
     private final Color backgroundColor = Color.BLACK;
+
+    @NotNull
     private final Color maxDepthColor = new Color(0.5f, 0.5f, 0.5f);
+
     private static final int MAX_DEPTH = 5;
 
-    public Raytracer(Scene scene, int width, int height) {
-        assert scene != null;
+    public Raytracer(@NotNull Scene scene, int width, int height) {
         assert width > 0;
         assert height > 0;
         
@@ -43,6 +52,7 @@ public final class Raytracer {
         this.height = height;
     }
 
+    @NotNull
     public Color colorFor(int x, int y) {
         float recenterY = -(y - (height / 2.0f)) / (2.0f * height);
         float recenterX = (x - (width / 2.0f)) / (2.0f * width);
@@ -55,8 +65,9 @@ public final class Raytracer {
      * Traces a ray into given direction, taking at most maxSteps recursive
      * steps.
      */
-    private Color traceRay(Ray ray, int maxSteps) {
-        Intersection intersection = scene.nearestIntersection(ray);
+    @NotNull
+    private Color traceRay(@NotNull Ray ray, int maxSteps) {
+        Intersection intersection = scene.nearestIntersection(ray).orElse(null);
         if (intersection == null)
             return backgroundColor;
         
@@ -70,7 +81,8 @@ public final class Raytracer {
      * Returns the natural color of given intersection by sum of different
      * lights coming to that position.
      */
-    private Color naturalColor(Intersection intersection) {
+    @NotNull
+    private Color naturalColor(@NotNull Intersection intersection) {
         Color color = Color.BLACK;
 
         for (Light light : scene.getLights())
@@ -82,7 +94,8 @@ public final class Raytracer {
     /**
      * Returns the natural color given by given light.
      */
-    private Color naturalColor(Intersection intersection, Light light) {
+    @NotNull
+    private Color naturalColor(@NotNull Intersection intersection, @NotNull Light light) {
         if (isInShadow(light, intersection.getPosition())) {
             return Color.BLACK;
         } else {
@@ -97,7 +110,8 @@ public final class Raytracer {
      * Calculates the color which is reflected to given intersection by
      * recursively tracing ray towards the direction of reflection.
      */
-    private Color reflectColor(Intersection intersection, int maxSteps) {
+    @NotNull
+    private Color reflectColor(@NotNull Intersection intersection, int maxSteps) {
         if (maxSteps <= 1)
             return maxDepthColor;
         
@@ -116,7 +130,8 @@ public final class Raytracer {
      * Calculates the diffuse color at given intersection by Lambertian
      * reflectance. See http://en.wikipedia.org/wiki/Lambertian_reflectance
      */
-    private Color diffuseColor(Intersection intersection, Light light) {
+    @NotNull
+    private Color diffuseColor(@NotNull Intersection intersection, @NotNull Light light) {
         Vector3 pos = intersection.getPosition();
         Vector3 lightDirection = light.vectorFrom(pos).normalize();
 
@@ -134,7 +149,8 @@ public final class Raytracer {
      * See http://en.wikipedia.org/wiki/Phong_shading
      * and http://en.wikipedia.org/wiki/Specular_reflection
      */
-    private Color specularColor(Intersection intersection, Light light) {
+    @NotNull
+    private Color specularColor(@NotNull Intersection intersection, @NotNull Light light) {
         Vector3 pos = intersection.getPosition();
         Vector3 vectorToLight = light.vectorFrom(pos).normalize();
         Vector3 reflectDir = intersection.getReflectDirection();
@@ -153,11 +169,11 @@ public final class Raytracer {
     /**
      * Returns true if given light is not visible from given position.
      */
-    private boolean isInShadow(Light light, Vector3 pos) {
+    private boolean isInShadow(@NotNull Light light, @NotNull Vector3 pos) {
         Vector3 vectorToLight = light.vectorFrom(pos);
         Ray testRay = new Ray(pos, vectorToLight.normalize());
 
-        Intersection intersection = scene.nearestIntersection(testRay);
+        Intersection intersection = scene.nearestIntersection(testRay).orElse(null);
         return (intersection != null) && (intersection.distance <= vectorToLight.magnitude());
     }
 }

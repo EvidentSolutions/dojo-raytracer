@@ -22,6 +22,8 @@
 
 package fi.evident.dojo.raytracer;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class MathUtils {
 
     private static final float[] EMPTY_FLOAT_ARRAY = new float[0];
@@ -41,6 +43,7 @@ public final class MathUtils {
     /**
      * Returns the roots roots of ax^2+bx+c = 0.
      */
+    @NotNull
     public static float[] rootsOfQuadraticEquation(float a, float b, float c) {
         float disc = square(b) - 4 * a * c;
         float divisor = 2*a;

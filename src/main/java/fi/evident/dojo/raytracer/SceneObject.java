@@ -22,24 +22,29 @@
 
 package fi.evident.dojo.raytracer;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
+
 public abstract class SceneObject {
     
+    @NotNull
     public final Surface surface;
     
-    protected SceneObject(Surface surface) {
-        assert surface != null;
-        
+    protected SceneObject(@NotNull Surface surface) {
         this.surface = surface;
     }
     
     /**
-     * Returns the intersection of this object with given ray, or null
+     * Returns the intersection of this object with given ray, or empty
      * if the ray does not intersect the object.
      */
-    public abstract Intersection intersect(Ray ray);
+    @NotNull
+    public abstract Optional<Intersection> intersect(@NotNull Ray ray);
     
     /**
      * Returns the normal of the object at given position.
      */
-    public abstract Vector3 normal(Vector3 pos);
+    @NotNull
+    public abstract Vector3 normal(@NotNull Vector3 pos);
 }

@@ -22,12 +22,17 @@
 
 package fi.evident.dojo.raytracer;
 
+import org.jetbrains.annotations.NotNull;
+
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public final class Color {
-    
+
+    @NotNull
     public static final Color BLACK = new Color(0, 0, 0);
+
+    @NotNull
     public static final Color WHITE = new Color(1, 1, 1);
     
     private final float r;
@@ -40,19 +45,23 @@ public final class Color {
         this.b = b;
     }
 
+    @NotNull
     public Color multiply(float n) {
         return new Color(n*r, n*g, n*b);
     }
 
-    public Color multiply(Color c) {
+    @NotNull
+    public Color multiply(@NotNull Color c) {
         return new Color(r*c.r, g*c.g, b*c.b);
     }
 
-    public Color add(Color c) {
+    @NotNull
+    public Color add(@NotNull Color c) {
         return new Color(r+c.r, g+c.g, b+c.b);
     }
     
-    public Color subtract(Color c) {
+    @NotNull
+    public Color subtract(@NotNull Color c) {
         return new Color(r-c.r, g-c.g, b-c.b);
     }
 
@@ -72,6 +81,7 @@ public final class Color {
         return max(0, min(d, 1));
     }
     
+    @NotNull
     @Override
     public String toString() {
         return "(" + r + " " + g + " " + b + ")";

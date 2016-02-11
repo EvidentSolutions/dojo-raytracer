@@ -22,43 +22,39 @@
 
 package fi.evident.dojo.raytracer;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Optional;
 
 import static java.lang.Character.isLetter;
 import static java.lang.Character.isWhitespace;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public final class SceneParser {
     
+    @NotNull
     private final char[] input;
     private int pos = 0;
 
-    private SceneParser(String input) {
+    private SceneParser(@NotNull String input) {
         this.input = input.toCharArray();
     }
 
-    public static Scene parse(String file) throws IOException {
+    @NotNull
+    public static Scene parse(@NotNull String file) throws IOException {
         return parse(new File(file));
     }
     
-    public static Scene parse(File file) throws IOException {
-        String contents = readContents(file);
-        return new SceneParser(contents).parseScene();
-    }
-    
-    private static String readContents(File file) throws IOException {
-        try (FileReader reader = new FileReader(file)) {
-            char[] buffer = new char[1024];
-            int n;
-            StringBuilder sb = new StringBuilder();
-            while ((n = reader.read(buffer)) != -1)
-                sb.append(buffer, 0, n);
-
-            return sb.toString();
-        }
+    @NotNull
+    public static Scene parse(@NotNull File file) throws IOException {
+        byte[] bytes = Files.readAllBytes(file.toPath());
+        return new SceneParser(new String(bytes, UTF_8)).parseScene();
     }
 
+    @NotNull
     private Scene parseScene() {
         Scene scene = new Scene(parseCamera());
         
@@ -82,6 +78,7 @@ public final class SceneParser {
         return scene;
     }
 
+    @NotNull
     private SceneObject parsePlane() {
         Vector3 normal = parseVector();
         float offset = parseNumber();
@@ -89,6 +86,7 @@ public final class SceneParser {
         return new Plane(normal, offset, surface);
     }
 
+    @NotNull
     private SceneObject parseSphere() {
         Vector3 normal = parseVector();
         float offset = parseNumber();
@@ -96,22 +94,22 @@ public final class SceneParser {
         return new Sphere(normal, offset, surface);
     }
 
+    @NotNull
     private Surface parseSurface() {
         String name = readSymbol();
-        
-        Surface surface = Surfaces.findSurfaceByName(name);
-        if (surface != null)
-            return surface;
-        else
-            throw fail("invalid surface: "+ name);
+
+        Optional<Surface> surface = Surfaces.findSurfaceByName(name);
+        return surface.orElseThrow(() -> fail("invalid surface: "+ name));
     }
     
+    @NotNull
     private Light parseLight() {
         Vector3 position = parseVector();
         Color color = parseColor();
         return new Light(position, color);
     }
 
+    @NotNull
     private Camera parseCamera() {
         expectSymbol("camera");
         Vector3 position = parseVector();
@@ -120,6 +118,7 @@ public final class SceneParser {
         return new Camera(position, lookAt);
     }
 
+    @NotNull
     private Vector3 parseVector() {
         expectChar('[');
         float x = parseNumber();
@@ -130,6 +129,7 @@ public final class SceneParser {
         return new Vector3(x, y, z);
     }
 
+    @NotNull
     private Color parseColor() {
         expectChar('(');
         float r = parseNumber();
@@ -165,12 +165,13 @@ public final class SceneParser {
             throw fail("expected char " + expected + ", but got EOF");
     }
 
-    private void expectSymbol(String expected) {
+    private void expectSymbol(@NotNull String expected) {
         String symbol = readSymbol();
         if (!expected.equals(symbol))
             throw fail("expected symbol " + expected + ", but got: " + symbol);
     }
-    
+
+    @NotNull
     private String readSymbol() {
         skipWhitespace();
         StringBuilder sb = new StringBuilder();
@@ -179,7 +180,8 @@ public final class SceneParser {
         return sb.toString();
     }
 
-    private String readTokenFromAlphabet(String alphabet) {
+    @NotNull
+    private String readTokenFromAlphabet(@NotNull String alphabet) {
         StringBuilder sb = new StringBuilder();
         while (pos < input.length && alphabet.indexOf(input[pos]) != -1)
             sb.append(input[pos++]);
@@ -203,13 +205,9 @@ public final class SceneParser {
         }
     }
     
-    private ParseException fail(String message) {
+    @NotNull
+    private ParseException fail(@NotNull String message) {
         return new ParseException(pos, message);
     }
 }
 
-class ParseException extends RuntimeException {
-    public ParseException(int pos, String message) {
-        super(pos + ": " + message);
-    }
-}

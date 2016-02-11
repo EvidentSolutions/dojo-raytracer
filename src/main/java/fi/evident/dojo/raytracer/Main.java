@@ -22,11 +22,13 @@
 
 package fi.evident.dojo.raytracer;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.*;
 
 public class Main {
     
-    public static void main(String[] args) {
+    public static void main(@NotNull String[] args) {
         try {
             String sceneFile = 
                 (args.length == 1) ? args[0] : "scenes/simple.scene";

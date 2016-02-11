@@ -22,15 +22,17 @@
 
 package fi.evident.dojo.raytracer;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class Ray {
 
+    @NotNull
     public final Vector3 start;
+
+    @NotNull
     public final Vector3 direction;
 
-    public Ray(Vector3 start, Vector3 direction) {
-        assert start != null;
-        assert direction != null;
-        
+    public Ray(@NotNull Vector3 start, @NotNull Vector3 direction) {
         this.start = start;
         this.direction = direction;
     }

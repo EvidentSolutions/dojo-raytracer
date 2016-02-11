@@ -22,6 +22,8 @@
 
 package fi.evident.dojo.raytracer;
 
+import org.jetbrains.annotations.NotNull;
+
 public abstract class Surface {
     
     public final float roughness;
@@ -31,8 +33,12 @@ public abstract class Surface {
         
         this.roughness = roughness;
     }
-    
-    public abstract Color diffuse(Vector3 pos);
-    public abstract Color specular(Vector3 pos);
-    public abstract float reflectivity(Vector3 pos);
+
+    @NotNull
+    public abstract Color diffuse(@NotNull Vector3 pos);
+
+    @NotNull
+    public abstract Color specular(@NotNull Vector3 pos);
+
+    public abstract float reflectivity(@NotNull Vector3 pos);
 }

@@ -1,0 +1,1 @@
+A small raytracer which is optimized for readability rather than performance. It is used as a base for short coding dojo programming projects.

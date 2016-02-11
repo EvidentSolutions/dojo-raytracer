@@ -24,8 +24,8 @@ package fi.evident.dojo.raytracer;
 
 public final class Intersection {
     
-    public final SceneObject object;
-    public final Ray ray;
+    private final SceneObject object;
+    private final Ray ray;
     public float distance;
     private Vector3 position;
     private Vector3 normal;

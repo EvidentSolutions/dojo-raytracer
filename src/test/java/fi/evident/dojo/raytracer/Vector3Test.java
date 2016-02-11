@@ -34,7 +34,7 @@ import static org.junit.Assert.assertEquals;
 
 public class Vector3Test {
 
-    private static float TOLERANCE = 0.001f;
+    private static final float TOLERANCE = 0.001f;
     private static final Random random = new Random();
     
     @Test
@@ -74,7 +74,7 @@ public class Vector3Test {
     }
     
     private static List<Float> arbitraryScales() {
-        List<Float> magnitudes = new ArrayList<Float>();
+        List<Float> magnitudes = new ArrayList<>();
         magnitudes.addAll(asList(0f, 1f, 5.4f, 100f, -42.4f));
         for (int i = 0; i < 10; i++)
             magnitudes.add(random.nextFloat());
@@ -82,7 +82,7 @@ public class Vector3Test {
     }
     
     private static List<Vector3> arbitraryVectors() {
-        List<Vector3> vectors = new ArrayList<Vector3>();
+        List<Vector3> vectors = new ArrayList<>();
         vectors.add(ZERO); 
         vectors.add(new Vector3(3, 4, 0));
         vectors.add(new Vector3(1.4f, -4, 40.2f));

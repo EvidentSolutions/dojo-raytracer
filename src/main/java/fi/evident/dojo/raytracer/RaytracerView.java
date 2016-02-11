@@ -54,40 +54,36 @@ public class RaytracerView extends JComponent {
         final AtomicInteger row = new AtomicInteger(0);
         
         for (int i = 0; i < numberOfThreads; i++)
-            new Thread(new Runnable() {
-                public void run() {
-                    int width = image.getWidth();
-                    int height = image.getHeight();
-                    int[] rgbArray = new int[width]; 
+            new Thread(() -> {
+                int width1 = image.getWidth();
+                int height1 = image.getHeight();
+                int[] rgbArray = new int[width1];
 
-                    int y;
-                    while ((y = row.incrementAndGet()) < height) {
-                        for (int x = 0; x < width; x++)
-                            rgbArray[x] = raytracer.colorFor(x, y).toARGB();
-                        
-                        image.setRGB(0, y, width, 1, rgbArray, 0, 1);
-                        
-                        if ((y % repaintInterval) == 0)
-                            repaint();
-                    }
-                   
-                    latch.countDown();
-               }
-            }).start();
-        
-        new Thread(new Runnable() {
-            public void run() {
-                long startTime = System.currentTimeMillis();
-                
-                try {
-                    latch.await();
-                    repaint();
-                } catch (InterruptedException e) {
+                int y1;
+                while ((y1 = row.incrementAndGet()) < height1) {
+                    for (int x1 = 0; x1 < width1; x1++)
+                        rgbArray[x1] = raytracer.colorFor(x1, y1).toARGB();
+
+                    image.setRGB(0, y1, width1, 1, rgbArray, 0, 1);
+
+                    if ((y1 % repaintInterval) == 0)
+                        repaint();
                 }
 
-                long elapsed = System.currentTimeMillis() - startTime;
-                System.out.println("elapsed time: " + elapsed + " ms");
+                latch.countDown();
+           }).start();
+        
+        new Thread(() -> {
+            long startTime = System.currentTimeMillis();
+
+            try {
+                latch.await();
+                repaint();
+            } catch (InterruptedException ignored) {
             }
+
+            long elapsed = System.currentTimeMillis() - startTime;
+            System.out.println("elapsed time: " + elapsed + " ms");
         }).start();
     }
 }

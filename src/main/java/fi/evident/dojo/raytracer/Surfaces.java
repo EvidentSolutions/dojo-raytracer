@@ -24,6 +24,7 @@ package fi.evident.dojo.raytracer;
 
 import static java.lang.Math.floor;
 
+@SuppressWarnings("unused")
 public final class Surfaces {
 
     public static final Surface checkerboard = new Surface(150) {

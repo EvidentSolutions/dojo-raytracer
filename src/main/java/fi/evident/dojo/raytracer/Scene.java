@@ -28,8 +28,8 @@ import java.util.List;
 public final class Scene {
     
     public final Camera camera;
-    private final List<SceneObject> objects = new ArrayList<SceneObject>();
-    private final List<Light> lights = new ArrayList<Light>();
+    private final List<SceneObject> objects = new ArrayList<>();
+    private final List<Light> lights = new ArrayList<>();
     
     public Scene(Camera camera) {
         assert camera != null;

@@ -65,7 +65,7 @@ public final class Color {
         return ((aa & 0xFF) << 24) |
                ((rr & 0xFF) << 16) |
                ((gg & 0xFF) << 8)  |
-               ((bb & 0xFF) << 0);
+               ((bb & 0xFF));
     }
     
     private static float clamp(float d) {

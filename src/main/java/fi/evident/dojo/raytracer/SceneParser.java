@@ -48,17 +48,14 @@ public final class SceneParser {
     }
     
     private static String readContents(File file) throws IOException {
-        FileReader reader = new FileReader(file);
-        try {
+        try (FileReader reader = new FileReader(file)) {
             char[] buffer = new char[1024];
             int n;
             StringBuilder sb = new StringBuilder();
             while ((n = reader.read(buffer)) != -1)
                 sb.append(buffer, 0, n);
-            
+
             return sb.toString();
-        } finally {
-            reader.close();
         }
     }
 
@@ -67,14 +64,19 @@ public final class SceneParser {
         
         while (hasMore()) {
             String symbol = readSymbol();
-            if (symbol.equals("plane"))
-                scene.addObject(parsePlane());
-            else if (symbol.equals("sphere"))
-                scene.addObject(parseSphere());
-            else if (symbol.equals("light"))
-                scene.addLight(parseLight());
-            else
-                throw fail("unexpected symbol: " + symbol);
+            switch (symbol) {
+                case "plane":
+                    scene.addObject(parsePlane());
+                    break;
+                case "sphere":
+                    scene.addObject(parseSphere());
+                    break;
+                case "light":
+                    scene.addLight(parseLight());
+                    break;
+                default:
+                    throw fail("unexpected symbol: " + symbol);
+            }
         }
         
         return scene;

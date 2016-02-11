@@ -29,10 +29,10 @@ public final class Raytracer {
     private final Scene scene;
     private final int width;
     private final int height;
-    private final int maxDepth = 5;
     private final Color backgroundColor = Color.BLACK;
     private final Color maxDepthColor = new Color(0.5f, 0.5f, 0.5f);
-    
+    private static final int MAX_DEPTH = 5;
+
     public Raytracer(Scene scene, int width, int height) {
         assert scene != null;
         assert width > 0;
@@ -48,7 +48,7 @@ public final class Raytracer {
         float recenterX = (x - (width / 2.0f)) / (2.0f * width);
         Vector3 direction = scene.camera.recenteredDirection(recenterX, recenterY);
 
-        return traceRay(new Ray(scene.camera.position, direction), maxDepth);
+        return traceRay(new Ray(scene.camera.position, direction), MAX_DEPTH);
     }
 
     /**
@@ -157,7 +157,7 @@ public final class Raytracer {
         Vector3 vectorToLight = light.vectorFrom(pos);
         Ray testRay = new Ray(pos, vectorToLight.normalize());
 
-        Intersection testIsect = scene.nearestIntersection(testRay);
-        return (testIsect != null) && (testIsect.distance <= vectorToLight.magnitude());
+        Intersection intersection = scene.nearestIntersection(testRay);
+        return (intersection != null) && (intersection.distance <= vectorToLight.magnitude());
     }
 }
